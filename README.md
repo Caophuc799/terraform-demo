@@ -76,3 +76,49 @@ module "demo_module" {
 }
 ```
 https://registry.terraform.io/
+
+# Import exist resource
+We can import existed resource by command line:
+If in aws, we have ec2, and we want to reuse it.
+In terraform
+```
+resource "aws_instance" "web_server" {
+  ami = "ami-0c2b8ca1dad447f8a" # match with existing ec2
+  instance_type = "t2.micro" # match with existing ec2
+}
+```
+Run command:
+```
+terraform import aws_instance.web_server i-xxxxxxxxx
+```
+We can check by command: ```terraform show```
+
+
+# Remote state using s3
+We can use remote state, It is really helpful when we work with teammate
+We can create s3 bucket to store state
+We should create terraform.tf with this code:
+```
+terraform {
+  backend "s3" {
+    bucket = "demo-state" # bucket name
+    key = "demo-state/terraform.tfstate” # path in the bucket of s3 
+    region = "us-east-1"
+    profile = “default”
+  }
+}
+```
+After that, we run ```terraform init```
+
+
+# Use aws credential with Aws terraform provider
+Create ~/.aws/credentials if it does not exist. I suggest that we should use command: ```aws configure```
+Run ```chmod 600 credentials```
+```
+provider "aws" {
+  profile = "default"
+  region = "${var.aws_region}"
+}
+````
+
+
