@@ -66,3 +66,13 @@ depends_on = [
     aws_s3_bucket.demo-bins
   ]
 ```
+
+# Module
+Load module
+```
+module "demo_module" {
+  source = "./web_server_module" # or "terraform-aws-modules/vpc/aws"
+  # define variable which module use
+}
+```
+https://registry.terraform.io/
