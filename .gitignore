@@ -5,7 +5,7 @@
 *.tfstate
 *.tfstate.*
 
-*.lock.hcl
+.terraform.lock.hcl
 # Crash log files
 crash.log
 
