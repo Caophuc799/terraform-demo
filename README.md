@@ -3,8 +3,7 @@ Learn terraform
 
 # Variable
 We can define variable with syntax:
-```variable "name" {}
-```
+```variable "name" {}```
 We can use variable with syntax:
 ```${var.name}```
 with Map: 
@@ -47,4 +46,23 @@ data "template_file" "webserver_policy_template" {
         arn = "${aws_instance.web_server.arn}"
     }
 }
+```
+
+# Resource dependencies
+Implicit
+```
+resource "aws_instance" "web_server" {
+  ami = "${lookup(var.webserver_amis, var.aws_region)}"
+  instance_type = "t2.micro" # free tier
+
+  subnet_id = "${aws_default_subnet.demo_default_subnet.id}"
+  # It depend on aws_default_subnet
+  # It's going to create default subnet first
+}
+```
+Explicit
+```
+depends_on = [
+    aws_s3_bucket.demo-bins
+  ]
 ```
