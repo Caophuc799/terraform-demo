@@ -123,8 +123,25 @@ provider "aws" {
 
 # Workspace:
 it used to seperate environment.
+
 Terraform start with single workspace called "default". 
+
 You can use ```terraform workspace show``` to current workspace.
+
 To create new workspace: ```terraform workspace new <name>```. Example: ```terraform workspace new development```
+
 List all workspace:  ```terraform workspace list```
+
 Select workspace:  ```terraform workspace select <name>```. Example:  ```terraform workspace select staging```
+
+We can check workspace in code like this:
+```
+resource "aws_instance" "example" {
+  ami           = "ami-0c55b159cbfafe1f0"
+  instance_type = (
+    terraform.workspace == "default" 
+    ? "t2.medium" 
+    : "t2.micro"
+  )
+}
+```
