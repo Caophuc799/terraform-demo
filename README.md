@@ -145,3 +145,42 @@ resource "aws_instance" "example" {
   )
 }
 ```
+
+# Isolating environment:
+File layout for typical terraform project:
+```
+stage
+  └ vpc
+  └ services
+      └ frontend-app
+      └ backend-app
+          └ main.tf
+          └ outputs.tf
+          └ variables.tf
+  └ data-storage
+      └ mysql
+      └ redis
+prod
+  └ vpc
+  └ services
+      └ frontend-app
+      └ backend-app
+  └ data-storage
+      └ mysql
+      └ redis
+mgmt
+  └ vpc
+  └ services
+      └ bastion-host
+      └ jenkins
+global
+  └ iam
+  └ s3
+```
+With each component should organize according to the following naming conventions. So it only suggestion I found in google
+
+variables.tf: Input variables.
+
+outputs.tf: Output variables.
+
+main.tf: The actual resources. If it is massive, we can seperate it to many small file.
